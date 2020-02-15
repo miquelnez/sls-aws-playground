@@ -1,24 +1,44 @@
-import { createLogger, format, transports } from "winston";
-// import AWS from 'aws-sdk';
-// import WinstonCloudWatch from 'winston-cloudwatch';
+import winston from "winston";
+import { format } from "winston";
+import AWS from "aws-sdk";
+import WinstonCloudWatch from "winston-cloudwatch";
+import moment from "moment";
 
-const { combine, timestamp, label, printf } = format;
-const myFormat = printf(({ level, message, timestamp }) => {
-  return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+const { combine, timestamp, printf } = format;
+AWS.config.update({
+  region: "us-east-1"
 });
 
-export const logger = createLogger({
-  format: combine(timestamp(), myFormat),
-  transports: [new transports.Console()]
+const technicalFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} *technical* [${level.toUpperCase()}]: ${message}`;
+});
+const anonymizedFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} *anonymized* [${level.toUpperCase()}]: ${message}`;
 });
 
-// winston-cloudwatch
-// AWS.config.update({
-//   region: 'us-east-1',
-// });
+winston.loggers
+  .add("technical", {
+    format: combine(timestamp(), technicalFormat),
+    transports: [
+      new winston.transports.Console(),
+      new WinstonCloudWatch({
+        cloudWatchLogs: new AWS.CloudWatchLogs(),
+        logGroupName: "sls-aws-playground-TECHNICAL",
+        logStreamName: moment().format("L")
+      })
+    ]
+  });
+  winston.loggers.add("anonymized", {
+    format: combine(timestamp(), anonymizedFormat),
+    transports: [
+      new winston.transports.Console(),
+      new WinstonCloudWatch({
+        cloudWatchLogs: new AWS.CloudWatchLogs(),
+        logGroupName: "sls-aws-playground-ANONYMIZED",
+        logStreamName: moment().format("L")
+      })
+    ]
+  });
 
-// winston.add(new WinstonCloudWatch({
-//   cloudWatchLogs: new AWS.CloudWatchLogs(),
-//   logGroupName: 'testing',
-//   logStreamName: 'first'
-// }));
+export const loggerTechnical = winston.loggers.get("technical");
+export const loggerAnonymized = winston.loggers.get("anonymized");

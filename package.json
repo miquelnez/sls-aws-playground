@@ -5,10 +5,12 @@
   "main": "handler.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx sls offline"
+    "start": "npx sls offline",
+    "deploy": "npx sls deploy -v"
   },
   "dependencies": {
     "lodash": "^4.17.15",
+    "moment": "^2.24.0",
     "request-promise-native": "^1.0.8",
     "source-map-support": "^0.5.10",
     "winston": "^3.2.1",

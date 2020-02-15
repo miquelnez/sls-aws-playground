@@ -1,13 +1,19 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import "source-map-support/register";
-import { logger } from "./logger";
+import { loggerTechnical, loggerAnonymized } from "./logger";
 
 export const hello: APIGatewayProxyHandler = async (event, _context) => {
-  logger.log({
+  loggerTechnical.log({
     level: "info",
-    label: "REQUEST",
-    message: "Hello has a new request"
+    message: "Hello has a new loggerTechnical log request"
   });
+
+  loggerAnonymized.log({
+    level: "info",
+    message: "Hello has a new loggerAnonymized log request"
+  });
+
+
   return {
     statusCode: 200,
     body: JSON.stringify(
