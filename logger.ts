@@ -1,12 +1,15 @@
-import winston from 'winston';
+import { createLogger, format, transports } from "winston";
 // import AWS from 'aws-sdk';
 // import WinstonCloudWatch from 'winston-cloudwatch';
 
-export const logger = winston.createLogger({
-    transports: [
-      new winston.transports.Console(),
-    //   new winston.transports.File({ filename: 'combined.log' })
-    ]
+const { combine, timestamp, label, printf } = format;
+const myFormat = printf(({ level, message, timestamp }) => {
+  return `${timestamp} [${level.toUpperCase()}]: ${message}`;
+});
+
+export const logger = createLogger({
+  format: combine(timestamp(), myFormat),
+  transports: [new transports.Console()]
 });
 
 // winston-cloudwatch

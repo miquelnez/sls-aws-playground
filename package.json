@@ -4,7 +4,8 @@
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx sls offline"
   },
   "dependencies": {
     "lodash": "^4.17.15",
@@ -14,10 +15,11 @@
     "winston-cloudwatch": "^2.3.0"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.149",
-    "@types/request-promise-native": "^1.0.17",
     "@types/aws-lambda": "^8.10.17",
+    "@types/lodash": "^4.14.149",
     "@types/node": "^10.17.15",
+    "@types/request-promise-native": "^1.0.17",
+    "cross-env": "^7.0.0",
     "fork-ts-checker-webpack-plugin": "^3.0.1",
     "serverless": "^1.63.0",
     "serverless-offline": "^5.12.1",
