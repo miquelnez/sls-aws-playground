@@ -1,26 +1,14 @@
-import { APIGatewayProxyHandler } from "aws-lambda";
-import "source-map-support/register";
-import { loggerTechnical } from "./logger";
-// import { loggerTechnical, loggerAnonymized } from "./logger";
+import { lambdaWinstonLogger } from "./winston-logger";
 
-export const hello: APIGatewayProxyHandler = async (event, _context) => {
-
+// export const hello: APIGatewayProxyHandler = async (event, _context) => {
+export async function hello(event: any, _context): Promise<any> {
   process.on("exit", function() {
     console.log(">> Process is exiting");
   });
 
-  loggerTechnical.log({
-    level: "info",
-    message: "Hello has a new loggerTechnical log request"
-  });
-
-//   loggerAnonymized.log({
-//     level: "info",
-//     message: "Hello has a new loggerAnonymized log request"
-//   });
-
-  loggerTechnical.end();
-//   loggerAnonymized.end();
+  console.log('before lambdaWinstonLogger');
+  await lambdaWinstonLogger(event, _context, 'info', 'Hello lambdaWinstonLogger');
+  console.log('after lambdaWinstonLogger');
 
   return {
     statusCode: 200,
