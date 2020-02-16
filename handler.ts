@@ -13,6 +13,9 @@ export const hello: APIGatewayProxyHandler = async (event, _context) => {
     message: "Hello has a new loggerAnonymized log request"
   });
 
+//   loggerTechnical.end();
+//   loggerAnonymized.end();
+
 
   return {
     statusCode: 200,

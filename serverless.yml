@@ -20,6 +20,9 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   environment:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    CLOUD_WATCH_REGION: ${file(./.env.yml):${opt:stage, self:provider.stage}.CLOUD_WATCH.REGION}
+    CLOUD_WATCH_IAM_KEY_ID: ${file(./.env.yml):${opt:stage, self:provider.stage}.CLOUD_WATCH.IAM_KEY_ID}
+    CLOUD_WATCH_IAM_ACCESS_KEY: ${file(./.env.yml):${opt:stage, self:provider.stage}.CLOUD_WATCH.IAM_ACCESS_KEY}
 
 functions:
   hello:

@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npx sls offline",
-    "deploy": "npx sls deploy -v"
+    "start:f:hello": "npx sls invoke local --function hello",
+    "deploy": "npx sls deploy -v",
+    "audit": "npm audit"
   },
   "dependencies": {
     "lodash": "^4.17.15",
